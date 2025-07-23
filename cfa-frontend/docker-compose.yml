@@ -1,12 +1,12 @@
 version: "3.8"
 
 networks:
-  app-database_app-network:
+  cfa-database_cfa-network:
     external: true
 
 services:
-  app-react:
-    container_name: react
+  cfa-react:
+    container_name: admin
     build:
       context: ./
       dockerfile: ./app/react/Dockerfile
@@ -16,8 +16,8 @@ services:
     volumes:
       - ./app/react:/var/www/html:delegated
     ports:
-      - 30003:5173
+      - 31003:5173
     restart: unless-stopped
     networks:
-      app-database_app-network:
-        ipv4_address: 172.30.0.24
+      cfa-database_cfa-network:
+        ipv4_address: 172.31.0.24
