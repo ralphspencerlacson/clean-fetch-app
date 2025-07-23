@@ -14,7 +14,7 @@ services:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - ./app/admin-dashboard:/var/www/html:delegated
+      - ./app/admin-dashboard:/app:delegated
     ports:
       - 31003:5173
     restart: unless-stopped
