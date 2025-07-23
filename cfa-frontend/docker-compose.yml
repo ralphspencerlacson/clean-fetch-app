@@ -5,16 +5,16 @@ networks:
     external: true
 
 services:
-  cfa-react:
-    container_name: admin
+  cfa-admin:
+    container_name: admin-dashboard
     build:
       context: ./
-      dockerfile: ./app/react/Dockerfile
+      dockerfile: ./app/admin-dashboard/Dockerfile
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
     volumes:
-      - ./app/react:/var/www/html:delegated
+      - ./app/admin-dashboard:/var/www/html:delegated
     ports:
       - 31003:5173
     restart: unless-stopped
