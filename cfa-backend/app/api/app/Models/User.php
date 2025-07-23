@@ -19,10 +19,15 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'contact_number',
+        'user_type',
+        'is_active',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,11 +49,20 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
-    // Relationships
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
     public function bookings()
     {
         return $this->hasMany(Booking::class);
