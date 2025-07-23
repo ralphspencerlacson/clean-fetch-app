@@ -15,7 +15,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: cfa-app
     ports:
-      - 30000:3306
+      - 31000:3306
     restart: unless-stopped
     volumes:
       - ./data/mysql:/var/lib/mysql

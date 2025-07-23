@@ -4,17 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Package extends Model
+class BookingStatus extends Model
 {
-    protected $fillable = [
-        'code',
-        'name',
-        'description',
-        'price',
-    ];
+    protected $table = 'booking_statuses';
+
+    protected $fillable = ['name', 'sort_order'];
 
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
 }
+
