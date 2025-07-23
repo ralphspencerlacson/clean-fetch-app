@@ -24,6 +24,11 @@ class Booking extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function packages()
+    {
+        return $this->hasMany(PackageBooking::class);
+    }
+
     public function schedule()
     {
         return $this->belongsTo(BookingSchedule::class);

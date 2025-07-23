@@ -8,7 +8,7 @@ class PackageBooking extends Model
 {
     protected $table = 'package_bookings';
 
-    protected $fillables = [
+    protected $fillable = [
         'package_id',
         'booking_id',
     ];
