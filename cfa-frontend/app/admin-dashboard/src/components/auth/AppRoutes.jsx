@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 // Components
 import PrivateRoute from "./PrivateRoute";
-import MainLayout from "../layout/MainLayout";
+import AdminLayout from "../layout/AdminLayout";
 // Pages
 import LoginPage from "../../pages/LoginPage";
 import HomePage from "../../pages/HomePage";
@@ -13,18 +13,20 @@ const AppRoutes = () => {
         <Routes>
             <Route path="/login" element={<LoginPage />} />
 
-            <Route element={<MainLayout />}>
-                <Route path="/" element={<HomePage />} />
-            </Route>
+            {/* Public */}
+            <Route path="/" element={<HomePage />} />
 
-            <Route 
-                path="/dashboard" 
-                element={
-                    <PrivateRoute>
-                        <Dashboard />
-                    </PrivateRoute>
-                } 
-            />
+            {/* Private */}
+            <Route element={<AdminLayout />}>
+                <Route
+                    path="/dashboard"
+                    element={
+                        <PrivateRoute>
+                            <Dashboard />
+                        </PrivateRoute>
+                    }
+                />
+            </Route>
 
             <Route path="*" element={<NotFoundPage />} />
         </Routes>

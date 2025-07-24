@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 // Context
 import { useAuth } from "../context/AuthContext";
 // Utils
@@ -10,7 +10,7 @@ import { Button, Input, Typography, Alert } from "antd";
 const { Title } = Typography;
 
 const LoginPage = () => {
-    const { login } = useAuth();
+    const {token,  login } = useAuth();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -19,6 +19,11 @@ const LoginPage = () => {
 
     const [loginType, setLoginType] = useState("customer");
     const [portal, setPortal] = useState("website");
+
+    // If authenticated, redirect to dashboard
+    if (token) {
+        return <Navigate to="/dashboard" replace />;
+    }
 
     const handleLogin = async () => {
         try {
