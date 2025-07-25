@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Package;
 
+use App\Models\Booking\Booking;
 use Illuminate\Database\Eloquent\Model;
 
 class Package extends Model

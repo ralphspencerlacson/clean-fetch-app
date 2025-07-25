@@ -13,6 +13,12 @@ import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
     UserOutlined,
+    GiftOutlined,
+    BoxPlotOutlined,
+    ToolOutlined,
+    TeamOutlined,
+    SettingOutlined,
+    DatabaseOutlined,
 } from "@ant-design/icons";
 import { Button, Menu, Dropdown, Avatar } from "antd";
 
@@ -56,29 +62,39 @@ const AdminLayout = () => {
             icon: <CalendarOutlined />,
         },
         {
-            key: "/products",
-            label: "Products",
+            key: "/orders",
+            label: "Orders",
             icon: <ShoppingCartOutlined />,
         },
         {
-            key: "/products",
-            label: "Products",
-            icon: <ShoppingCartOutlined />,
+            key: "/packages",
+            label: "Packages",
+            icon: <GiftOutlined />,
         },
         {
-            key: "/products",
-            label: "Products",
-            icon: <ShoppingCartOutlined />,
+            key: "/inventory",
+            label: "Inventory",
+            icon: <DatabaseOutlined />,
+            children: [
+                {
+                    key: "/inventory/services",
+                    label: "Services",
+                },
+                {
+                    key: "/inventory/products",
+                    label: "Products",
+                },
+            ]
         },
         {
-            key: "/products",
-            label: "Products",
-            icon: <ShoppingCartOutlined />,
+            key: "/customers",
+            label: "Customers",
+            icon: <TeamOutlined />,
         },
         {
-            key: "/products",
-            label: "Products",
-            icon: <ShoppingCartOutlined />,
+            key: "/settings",
+            label: "Settings",
+            icon: <SettingOutlined />,
         },
     ];
 
@@ -186,7 +202,7 @@ const AdminLayout = () => {
             </div>
 
             {/* Content */}
-            <main className="py-20 overflow-y-auto flex-1">
+            <main className="pt-30 pb-10 px-20 overflow-y-auto flex-1">
                 <Outlet />
             </main>
         </div>
