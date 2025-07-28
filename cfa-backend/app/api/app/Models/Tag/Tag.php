@@ -5,9 +5,12 @@ namespace App\Models\Tag;
 use App\Models\Product\Product;
 use App\Models\Service\Service;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'code',
         'name',
@@ -29,5 +32,11 @@ class Tag extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    // Scope to filter tags by category
+    public function scopeActive($query)
+    {
+        return $query->whereNull('deleted_at');
     }
 }

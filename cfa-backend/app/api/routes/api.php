@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Service\ServiceController;
 use App\Http\Controllers\Tag\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,23 +20,27 @@ Route::middleware('auth:sanctum')->group(function () {
      */
     Route::prefix('v1')->group(function () {
         /**
-         * @api Product
+         * 
+         * @api Product Management
+         * 
          */
         Route::prefix('product')->group(function () {
-
+            Route::get('/', [ProductController::class, 'index']);
+            Route::post('/', [ProductController::class, 'store']);
         });
 
 
         /**
-         * @api Service
+         * @api Service Management
          */
         Route::prefix('service')->group(function () {
-
+            Route::get('/', [ServiceController::class, 'index']);
+            Route::post('/', [ServiceController::class, 'store']);
         });
 
 
         /**
-         * @api Tag
+         * @api Tag Management
          */
         Route::prefix('tags')->group(function () {
             Route::get('/', [TagController::class, 'index']);

@@ -160,12 +160,7 @@ const TagManager = () => {
                 dataSource={tags?.data}
                 rowKey="id"
                 loading={isLoading}
-                pagination={{
-                    pageSize: 10,
-                    showSizeChanger: true,
-                    showTotal: (total, range) =>
-                        `${range[0]}-${range[1]} of ${total} tags`,
-                }}
+                pagination={false}
                 scroll={{ y: 400 }}
                 size="small"
                 locale={{
