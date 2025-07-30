@@ -35,7 +35,7 @@ class ServiceController extends Controller
         }
     }
 
-    public function createService(Request $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         try {
             $service = $this->serviceService->createService($request->all());

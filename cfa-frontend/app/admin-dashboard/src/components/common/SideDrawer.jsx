@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, cloneElement } from "react";
 import { Button, Drawer } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
@@ -19,6 +19,15 @@ import { CloseOutlined } from "@ant-design/icons";
  */
 const SideDrawer = ({ title, width, buttonText, buttonSize="small", buttonClass, children }) => {
     const [open, setOpen] = useState(false);
+
+        // Clone children and pass the close function
+    const childrenWithProps = React.Children.map(children, child => {
+        if (React.isValidElement(child)) {
+            return cloneElement(child, { closeSideDrawer: () => setOpen(false) });
+        }
+        return child;
+    });
+
     return (
         <div>
             <button
@@ -43,7 +52,7 @@ const SideDrawer = ({ title, width, buttonText, buttonSize="small", buttonClass,
                 open={open}
             >
 
-                {children}
+                {childrenWithProps}
 
             </Drawer>
         </div>

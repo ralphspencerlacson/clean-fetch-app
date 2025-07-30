@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 // Hooks
 import { useTags } from "../../../hooks/tag/useTags";
+import { useCreateService } from "../../../hooks/service/useCreateService";
 // AntD
 import { Form, Input, InputNumber, Row, Col, Select, DatePicker, Radio } from "antd";
 import { SaveOutlined } from "@ant-design/icons";
@@ -8,12 +9,15 @@ import { SaveOutlined } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-const ServiceForm = () => {
+const ServiceForm = ({ closeSideDrawer }) => {
     const [serviceForm] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
     const [ tagOptions, setTagOptions ] = useState([]);
 
     const { data: tags, isLoading: tagsLoading } = useTags();
+
+    const createService = useCreateService();
     
     useEffect(() => {
         if(tags && !tagsLoading) {
@@ -21,14 +25,25 @@ const ServiceForm = () => {
         }
     }, [tags]);
 
-    const handleSubmit = (values) => {
-        console.log("Form values:", values);
-        // Handle form submission logic here
+    const handleSubmit = async (values) => {
+        setLoading(true);
+
+        try {
+            await createService.mutateAsync(values);
+
+            serviceForm.resetFields();
+            closeSideDrawer();
+
+        } catch (error) {
+            console.error("Error creating service:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleCancel = () => {
         serviceForm.resetFields();
-        // Handle cancel logic here
+        closeSideDrawer();
     };
 
     return (
@@ -38,6 +53,7 @@ const ServiceForm = () => {
                 layout="vertical"
                 onFinish={handleSubmit}
                 requiredMark={false}
+                className="relative"
             >
                 <Row gutter={[12, 12]}>
                     <Col xs={24}>
@@ -104,10 +120,7 @@ const ServiceForm = () => {
                                 style={{ width: "100%" }}
                                 min={0}
                                 formatter={(value) =>
-                                    `₱ ${value}`.replace(
-                                        /\B(?=(\d{3})+(?!\d))/g,
-                                        ","
-                                    )
+                                    `₱ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                                 }
                                 parser={(value) =>
                                     value.replace(/₱\s?|(,*)/g, "")
@@ -190,6 +203,20 @@ const ServiceForm = () => {
                                 </Row>
                             </Radio.Group>
                         </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row
+                    className=" w-full absolute bottom-6 left-0 right-0 px-6"
+                >
+                    <Col span={24}>
+                        <button
+                            className="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-400"
+                            loading={loading}
+                            type="submit"
+                        >
+                            Create
+                        </button>
                     </Col>
                 </Row>
             </Form>
