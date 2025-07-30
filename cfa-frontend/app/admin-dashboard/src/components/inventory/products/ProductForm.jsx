@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 // Hooks
 import { useTags } from "../../../hooks/tag/useTags";
+import { useCreateProduct } from "../../../hooks/product/useCreateProduct";
 // AntD
-import { Form, Input, InputNumber, Row, Col, Select, DatePicker, Radio } from "antd";
+import { Form, Input, InputNumber, Row, Col, Select, DatePicker, Radio, Button } from "antd";
 import { SaveOutlined } from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-const ProductForm = () => {
+const ProductForm = ({ closeSideDrawer }) => {
     const [productForm] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
     const [ tagOptions, setTagOptions ] = useState([]);
 
     const { data: tags, isLoading: tagsLoading } = useTags();
+    const createProduct = useCreateProduct();
 
     useEffect(() => {
         if(tags && !tagsLoading) {
@@ -21,14 +24,25 @@ const ProductForm = () => {
         }
     }, [tags]);
 
-    const handleSubmit = (values) => {
-        console.log("Form values:", values);
-        // Handle form submission logic here
+    const handleSubmit = async (values) => {
+        setLoading(true);
+
+        try {
+            await createProduct.mutateAsync(values);
+
+            productForm.resetFields();
+            closeSideDrawer();
+
+        } catch (error) {
+            console.error("Error creating product:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleCancel = () => {
         productForm.resetFields();
-        // Handle cancel logic here
+        closeSideDrawer(); 
     };
 
     return (
@@ -104,10 +118,7 @@ const ProductForm = () => {
                                 style={{ width: "100%" }}
                                 min={0}
                                 formatter={(value) =>
-                                    `₱ ${value}`.replace(
-                                        /\B(?=(\d{3})+(?!\d))/g,
-                                        ","
-                                    )
+                                    `₱ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                                 }
                                 parser={(value) =>
                                     value.replace(/₱\s?|(,*)/g, "")
@@ -190,6 +201,20 @@ const ProductForm = () => {
                                 </Row>
                             </Radio.Group>
                         </Form.Item>
+                    </Col>
+                </Row>
+
+                <Row
+                    className=" w-full absolute bottom-6 left-0 right-0 px-6"
+                >
+                    <Col span={24}>
+                        <button
+                            className="w-full bg-blue-500 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-400"
+                            loading={loading}
+                            type="submit"
+                        >
+                            Create
+                        </button>
                     </Col>
                 </Row>
             </Form>
