@@ -16,7 +16,6 @@ const ServiceForm = ({ closeSideDrawer }) => {
     const [ tagOptions, setTagOptions ] = useState([]);
 
     const { data: tags, isLoading: tagsLoading } = useTags();
-
     const createService = useCreateService();
     
     useEffect(() => {
@@ -41,11 +40,6 @@ const ServiceForm = ({ closeSideDrawer }) => {
         }
     };
 
-    const handleCancel = () => {
-        serviceForm.resetFields();
-        closeSideDrawer();
-    };
-
     return (
         <>
             <Form
@@ -53,14 +47,18 @@ const ServiceForm = ({ closeSideDrawer }) => {
                 layout="vertical"
                 onFinish={handleSubmit}
                 requiredMark={false}
-                className="relative"
             >
                 <Row gutter={[12, 12]}>
                     <Col xs={24}>
                         <Form.Item
                             name="date"
                             label="Availability Date"
-                            required
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please enter service code",
+                                },
+                            ]}
                         >
                             <RangePicker
                                 className="w-full"
@@ -113,6 +111,11 @@ const ServiceForm = ({ closeSideDrawer }) => {
                                     required: true,
                                     message: "Please enter rack rate",
                                 },
+                                {
+                                    type: "number",
+                                    min: 1,
+                                    message: "Rack rate must be a positive number",
+                                }
                             ]}
                             initialValue={0}
                         >
@@ -131,7 +134,16 @@ const ServiceForm = ({ closeSideDrawer }) => {
                     </Col>
 
                     <Col xs={24} md={12}>
-                        <Form.Item name="tag" label="Tags">
+                        <Form.Item
+                            name="tag"
+                            label="Tags"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please enter service code",
+                                },
+                            ]}
+                        >
                             <Select
                                 options={tagOptions}
                                 placeholder="Select tags"
@@ -143,7 +155,16 @@ const ServiceForm = ({ closeSideDrawer }) => {
 
                 <Row gutter={[12, 12]}>
                     <Col xs={24}>
-                        <Form.Item name="description" label="Description">
+                        <Form.Item 
+                            name="description"
+                            abel="Description"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please enter service description",
+                                },
+                            ]}
+                        >
                             <TextArea
                                 rows={4}
                                 placeholder="Enter service description"
@@ -169,6 +190,7 @@ const ServiceForm = ({ closeSideDrawer }) => {
                             name="status"
                             label="Status"
                             className="w-full"
+                            initialValue={0}
                         >
                             <Radio.Group className="flex w-full gap-4">
                                 <Row gutter={[12, 12]}>
@@ -194,8 +216,7 @@ const ServiceForm = ({ closeSideDrawer }) => {
                                                     Inactive
                                                 </p>
                                                 <p className="text-sm text-gray-500">
-                                                    Not available to add to
-                                                    package
+                                                    Not available to add to package
                                                 </p>
                                             </span>
                                         </label>

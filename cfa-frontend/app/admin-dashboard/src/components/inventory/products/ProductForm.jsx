@@ -40,11 +40,6 @@ const ProductForm = ({ closeSideDrawer }) => {
         }
     };
 
-    const handleCancel = () => {
-        productForm.resetFields();
-        closeSideDrawer(); 
-    };
-
     return (
         <>
             <Form
@@ -58,7 +53,12 @@ const ProductForm = ({ closeSideDrawer }) => {
                         <Form.Item
                             name="date"
                             label="Availability Date"
-                            required
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please enter service description",
+                                },
+                            ]}
                         >
                             <RangePicker
                                 className="w-full"
@@ -111,6 +111,11 @@ const ProductForm = ({ closeSideDrawer }) => {
                                     required: true,
                                     message: "Please enter rack rate",
                                 },
+                                {
+                                    type: "number",
+                                    min: 1,
+                                    message: "Rack rate must be a positive number",
+                                }
                             ]}
                             initialValue={0}
                         >
@@ -129,7 +134,16 @@ const ProductForm = ({ closeSideDrawer }) => {
                     </Col>
 
                     <Col xs={24} md={12}>
-                        <Form.Item name="tag" label="Tags">
+                        <Form.Item
+                            name="tag" 
+                            label="Tags"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please enter service description",
+                                },
+                            ]}
+                        >
                             <Select
                                 options={tagOptions}
                                 placeholder="Select tags"
@@ -141,7 +155,16 @@ const ProductForm = ({ closeSideDrawer }) => {
 
                 <Row gutter={[12, 12]}>
                     <Col xs={24}>
-                        <Form.Item name="description" label="Description">
+                        <Form.Item 
+                        name="description" 
+                            label="Description"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please enter service description",
+                                },
+                            ]}
+                        >
                             <TextArea
                                 rows={4}
                                 placeholder="Enter product description"
@@ -167,6 +190,7 @@ const ProductForm = ({ closeSideDrawer }) => {
                             name="status"
                             label="Status"
                             className="w-full"
+                            initialValue={0}
                         >
                             <Radio.Group className="flex w-full gap-4">
                                 <Row gutter={[12, 12]}>
@@ -192,8 +216,7 @@ const ProductForm = ({ closeSideDrawer }) => {
                                                     Inactive
                                                 </p>
                                                 <p className="text-sm text-gray-500">
-                                                    Not available to add to
-                                                    package
+                                                    Not available to add to package
                                                 </p>
                                             </span>
                                         </label>
