@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 // Hooks
 import { useTags } from "../../../hooks/tag/useTags";
 import { useCreateProduct } from "../../../hooks/product/useCreateProduct";
@@ -9,7 +10,7 @@ import { SaveOutlined } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-const ProductForm = ({ closeSideDrawer }) => {
+const ProductForm = ({ closeSideDrawer, existingData }) => {
     const [productForm] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
@@ -17,6 +18,21 @@ const ProductForm = ({ closeSideDrawer }) => {
 
     const { data: tags, isLoading: tagsLoading } = useTags();
     const createProduct = useCreateProduct();
+
+    // Set initial form values if existingData is provided
+    useEffect(() => {
+        if (existingData) {
+            productForm.setFieldsValue({
+                ...existingData,
+                date: existingData.start_date && existingData.end_date
+                    ? [dayjs(existingData.start_date), dayjs(existingData.end_date)]
+                    : undefined,
+                rackRate: existingData.rackRate ?? 0,
+                status: existingData.status ?? 0,
+                tag: existingData.tag_id,
+            });
+        }
+    }, [existingData, productForm]);
 
     useEffect(() => {
         if(tags && !tagsLoading) {
@@ -56,7 +72,7 @@ const ProductForm = ({ closeSideDrawer }) => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please enter service description",
+                                    message: "Please enter product description",
                                 },
                             ]}
                         >
@@ -156,7 +172,7 @@ const ProductForm = ({ closeSideDrawer }) => {
                 <Row gutter={[12, 12]}>
                     <Col xs={24}>
                         <Form.Item 
-                        name="description" 
+                            name="description" 
                             label="Description"
                             rules={[
                                 {

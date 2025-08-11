@@ -10,17 +10,17 @@ import { CloseOutlined } from "@ant-design/icons";
  * @param {Object} props
  * @param {string} props.title - Title displayed in the drawer header and as fallback button text.
  * @param {number} [props.width=720] - Width of the drawer in pixels.
- * @param {string} [props.buttonText] - Optional custom text for the button. Defaults to the drawer title.
- * @param {'small' | 'large'} [props.buttonSize='small'] - Controls the size of the button.
- *        - 'small': Smaller font and padding
- *        - 'large': Larger font and padding
- * @param {string} [props.buttonClass] - Extra CSS classes for button styling.
+ * @param {React.ReactElement} [props.button] - Component of the button that opens the drawer.
  * @param {React.ReactNode} props.children - Content to render inside the drawer.
  */
-const SideDrawer = ({ title, width, buttonText, buttonSize="small", buttonClass, children }) => {
+const SideDrawer = ({ title, width, button, children }) => {
     const [open, setOpen] = useState(false);
 
-        // Clone children and pass the close function
+    const triggerButton = button ? cloneElement(button, {
+        onClick: () => setOpen(true),
+    }) : null;
+
+    // Clone children and pass the close function
     const childrenWithProps = React.Children.map(children, child => {
         if (React.isValidElement(child)) {
             return cloneElement(child, { closeSideDrawer: () => setOpen(false) });
@@ -30,20 +30,14 @@ const SideDrawer = ({ title, width, buttonText, buttonSize="small", buttonClass,
 
     return (
         <div>
-            <button
-                className={` text-blue-500 border-blue-500 border cursor-pointer rounded-lg
-                    ${buttonSize === "small" ?
-                        " text-[12px] px-4 py-2 "  :
-                        " text-[14px] px-8 py-2 "}
-                     ${buttonClass}`}
-                onClick={() => setOpen(true)}>{buttonText || title}</button>
+            {triggerButton}
 
             <Drawer
                 title={
-                  <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-semibold">{title}</h2>
-                    <CloseOutlined onClick={() => setOpen(false)} />
-                  </div>
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-lg font-semibold">{title}</h2>
+                        <CloseOutlined onClick={() => setOpen(false)} />
+                    </div>
                 }
                 placement="right"
                 closable={false}

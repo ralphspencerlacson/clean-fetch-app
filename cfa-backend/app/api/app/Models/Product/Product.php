@@ -2,6 +2,7 @@
 
 namespace App\Models\Product;
 
+use App\Models\Inventory\Inventory;
 use App\Models\Tag\Tag;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,5 +33,10 @@ class Product extends Model
     public function tag()
     {
         return $this->belongsTo(Tag::class);
+    }
+
+    public function inventory()
+    {
+        return $this->morphOne(Inventory::class, 'inventoryable');
     }
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 // Hooks
 import { useTags } from "../../../hooks/tag/useTags";
 import { useCreateService } from "../../../hooks/service/useCreateService";
@@ -9,7 +10,7 @@ import { SaveOutlined } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-const ServiceForm = ({ closeSideDrawer }) => {
+const ServiceForm = ({ closeSideDrawer, existingData }) => {
     const [serviceForm] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
@@ -17,7 +18,22 @@ const ServiceForm = ({ closeSideDrawer }) => {
 
     const { data: tags, isLoading: tagsLoading } = useTags();
     const createService = useCreateService();
-    
+
+    // Set initial form values if existingData is provided
+    useEffect(() => {
+        if (existingData) {
+            serviceForm.setFieldsValue({
+                ...existingData,
+                date: existingData.start_date && existingData.end_date
+                    ? [dayjs(existingData.start_date), dayjs(existingData.end_date)]
+                    : undefined,
+                rackRate: existingData.rackRate ?? 0,
+                status: existingData.status ?? 0,
+                tag: existingData.tag_id,
+            });
+        }
+    }, [existingData, serviceForm]);
+
     useEffect(() => {
         if(tags && !tagsLoading) {
             setTagOptions(tags?.data.map(tag => ({ label: tag.name, value: tag.id })));
@@ -157,7 +173,7 @@ const ServiceForm = ({ closeSideDrawer }) => {
                     <Col xs={24}>
                         <Form.Item 
                             name="description"
-                            abel="Description"
+                            label="Description"
                             rules={[
                                 {
                                     required: true,
