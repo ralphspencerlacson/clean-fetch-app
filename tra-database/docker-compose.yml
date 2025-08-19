@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  cfa-network:
+  tra-network:
     driver: bridge
     ipam:
       config:
@@ -9,22 +9,22 @@ networks:
 
 services:
   mysql_db:
-    container_name: cfa-mysql-db-cluster
+    container_name: tra-mysql-db-cluster
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: cfa-app
+      MYSQL_DATABASE: tra-app
     ports:
       - 31000:3306
     restart: unless-stopped
     volumes:
       - ./data/mysql:/var/lib/mysql
     networks:
-      cfa-network:
+      tra-network:
         ipv4_address: 172.31.0.20
 
   phpmyadmin:
-    container_name: cfa-phpmyadmin
+    container_name: tra-phpmyadmin
     image: phpmyadmin:latest
     ports:
       - 31001:80
@@ -32,5 +32,5 @@ services:
       - PMA_ARBITRARY=1
     restart: unless-stopped
     networks:
-      cfa-network:
+      tra-network:
         ipv4_address: 172.31.0.21
