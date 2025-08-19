@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User\User;
-use Database\Seeders\Booking\BookingStatusesSeeder;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,35 +18,31 @@ class DatabaseSeeder extends Seeder
         User::create([
             'first_name' => 'Admin',
             'last_name' => 'User',
-            'email' => 'admin@example.com',
             'password' => Hash::make('password123'),
+            'email' => 'admin@example.com',
             'contact_number' => '+1234567890',
-            'user_type' => 'admin',
+            'user_type' => 1, // Admin
             'is_active' => true,
         ]);
 
         User::create([
             'first_name' => 'John',
             'last_name' => 'Doe',
-            'email' => 'john@example.com',
             'password' => Hash::make('password123'),
             'contact_number' => '+1234567891',
-            'user_type' => 'customer',
+            'email' => 'john@example.com',
+            'user_type' => 2, // Staff
             'is_active' => true,
         ]);
 
         User::create([
             'first_name' => 'Jane',
             'last_name' => 'Smith',
-            'email' => 'jane@example.com',
             'password' => Hash::make('password123'),
+            'email' => 'jane@example.com',
             'contact_number' => '+1234567892',
-            'user_type' => 'staff',
+            'user_type' => 0, // User
             'is_active' => true,
-        ]);
-
-        $this->call([
-            BookingStatusesSeeder::class,
         ]);
     }
 }

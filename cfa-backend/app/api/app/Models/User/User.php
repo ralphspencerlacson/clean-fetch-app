@@ -4,7 +4,6 @@ namespace App\Models\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Models\Booking\Booking;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,9 +22,9 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'contact_number',
         'email',
         'password',
-        'contact_number',
         'user_type',
         'is_active',
     ];
@@ -63,15 +62,5 @@ class User extends Authenticatable
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
-    }
-
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class);
-    }
-
-    public function addresses()
-    {
-        return $this->hasMany(UserAddress::class);
     }
 }
