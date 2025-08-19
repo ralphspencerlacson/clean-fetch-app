@@ -6,7 +6,6 @@ import { useAuth } from "../../context/AuthContext";
 // AntD
 import {
     AppstoreOutlined,
-    HomeOutlined,
     CalendarOutlined,
     ShoppingCartOutlined,
     LogoutOutlined,
@@ -14,8 +13,6 @@ import {
     MenuFoldOutlined,
     UserOutlined,
     GiftOutlined,
-    BoxPlotOutlined,
-    ToolOutlined,
     TeamOutlined,
     SettingOutlined,
     DatabaseOutlined,
@@ -57,44 +54,14 @@ const AdminLayout = () => {
             icon: <AppstoreOutlined />,
         },
         {
-            key: "/bookings",
-            label: "Bookings",
-            icon: <CalendarOutlined />,
-        },
-        {
-            key: "/orders",
-            label: "Orders",
+            key: "/expenses",
+            label: "Expenses",
             icon: <ShoppingCartOutlined />,
         },
         {
-            key: "/packages",
-            label: "Packages",
-            icon: <GiftOutlined />,
-        },
-        {
-            key: "/inventory",
-            label: "Inventory",
-            icon: <DatabaseOutlined />,
-            children: [
-                {
-                    key: "/inventory/services",
-                    label: "Services",
-                },
-                {
-                    key: "/inventory/products",
-                    label: "Products",
-                },
-            ]
-        },
-        {
-            key: "/customers",
-            label: "Customers",
-            icon: <TeamOutlined />,
-        },
-        {
-            key: "/settings",
-            label: "Settings",
-            icon: <SettingOutlined />,
+            key: "/documents",
+            label: "Documents",
+            icon: <CalendarOutlined />,
         },
     ];
 

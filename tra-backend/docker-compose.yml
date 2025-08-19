@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
   tra-database_tra-network:
     external: true
